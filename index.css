@@ -1,0 +1,54 @@
+body{
+    
+    background-image: url('map.jpeg');
+    background-size: cover;
+}
+h1{
+    margin: 50px;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    text-decoration: underline;
+    color:brown;
+}
+.data{
+    position: relative;
+    background-color: transparent;
+    border:2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(55px);
+    justify-content: center;
+    padding:2rem 3rem;
+}
+.firsttext {
+   color:brown;
+   text-align: center;
+}
+
+.text{
+  
+    text-align: center;
+}
+
+.text2{
+    text-align: center;
+}
+.info{
+    text-align: center;
+    font-size: 30px;
+}
+.feedback{
+    text-align: center;
+}
+.timer {
+    font-size: 5rem;
+    color: black;
+    width: 10px;
+  }
+  .timediv{
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    display: flex;
+  }
+  

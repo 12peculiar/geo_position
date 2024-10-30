@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geo Location Tracking</title>
+    <link rel="stylesheet" href="index.css">
+    <script>
+       
+        // Function to get user's current location and send it to the server
+        function updateLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition, showError);
+            } else {
+                x.innerText = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        // Send position to the PHP server via AJAX and display feedback on the webpage
+        function sendPosition(position) {
+            const xhr = new XMLHttpRequest();
+            const lat = position.coords.latitude;
+            const long = position.coords.longitude;
+
+            xhr.open("POST", "index.php", true);
+           xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+          //   Listen for a response from the PHP script
+            xhr.onreadystatechange = function() {
+               if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("feedback").innerText = xhr.responseText;
+                } else if (xhr.readyState === 4 && xhr.status !== 200) {
+                   document.getElementById("feedback").innerText = "Error: " + xhr.status + " " + xhr.statusText;
+                }
+                else{
+                    document.getElementById('feedback').innerText = "Error";
+                }
+                
+            };
+
+             // Log the data being sent
+    console.log(`Data being sent: Latitude=${lat}, Longitude=${long}, User ID=${userId}`);
+            // Send the user's location data to the PHP script
+            xhr.send(`latitude=${lat}&longitude=${long}&user_id=${userId}`);
+            console.log(`${lat}`);
+            // Display the position on the webpage
+            document.getElementById("info").innerText = `Your location is of Latitude=${lat} and Longitude of ${long}`;
+         // x.innerText = "Latitude: " + lat + "<br>Longitude: " + long;
+        }
+
+        // Error handling for geolocation
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("feedback").innerText = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("feedback").innerText = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("feedback").innerText = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("feedback").innerText = "An unknown error occurred.";
+                    break;
+            }
+        }
+
+        // Update location every 20 seconds
+        setInterval(updateLocation, 20000);
+    </script>
+</head>
+<body>
+    <h1>Welcome to your location tracker! </h1>
+ 
+    <p class="firsttext">Coordinating your world</p>
+    <div class="data">
+    <p class="text">Please ensure to refresh you page to get your updated location and patiently wait 20 seconds. Ensure you are online.</p>
+
+
+<p id="info" class="info"></p>
+
+    <!-- Feedback section to display server responses and errors -->
+    <p id="feedback" class="feedback"></p>
+</div>
+</body>
+</html>
